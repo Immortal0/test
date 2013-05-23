@@ -30,6 +30,10 @@ $db = mysql_connect("localhost","Mybase","qwerty55");
 mysql_select_db ("mybase",$db);
 $result = mysql_query("SELECT * FROM my WHERE login='$logj'",$db);
 $arr = mysql_fetch_array($result);
+if ($arr['rol'] == "ban")
+echo "You has been banned on this login";
+else
+{
 if (empty($arr['login']))
 {
 echo $ne;
@@ -41,7 +45,8 @@ if ($arr['password']==$passj)
 
 $_SESSION['name'] = "$logj";
 echo $tyj;
-
+$datenow = date("d.m.Y H:i:s");
+$uptime = mysql_query("UPDATE my SET datel='$datenow' WHERE login='$logj'");
 }
 //else echo "<br> Невірний Пароль";
 
@@ -51,6 +56,7 @@ echo $tyj;
 else
 {
 echo $pe;
+}
 }
 }
 //$f = fopen("file2.txt","a");

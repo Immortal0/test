@@ -25,10 +25,10 @@ You post...
 $table = '
 <center><table width=600 height=100 border=0 cellpadding=0 cellspacing=0>
 	<tr><td>
-	<font size=30><center><a href=index.php>Home</a></center></font>
+	<font size=5><center><a href=index.php>Home</a></center></font>
 	</td>
 	<td>
-	<font size=30><center><a href=reg.php>Register</a></center></font>
+	<font size=5><center><a href=reg.php>Register</a></center></font>
 	</td>
 	<td>
 	
@@ -44,13 +44,29 @@ $table = '
 </table></center>';
 
 
+$db = mysql_connect ("localhost","Mybase","qwerty55");
+mysql_select_db ("mybase",$db);
+$uname = $_GET['login']; 
+$yname = $_SESSION['name'];
+$sqlmy = "SELECT * FROM my WHERE login='$uname'";
+$result2 = mysql_query($sqlmy);
+$myav = mysql_fetch_array($result2);
+$myava = $myav['image'];
+
+
+$myav3 = mysql_fetch_array(mysql_query("SELECT * FROM my WHERE login='$yname'"));
+$myava3 = $myav3['image'];
+
 $table1 = "<center><table width=600 height=100 border=0 cellpadding=0 cellspacing=0>
-	<tr><td>
-	<font size=30><center><a href=index.php>Home</a></center></font>
+	<tr><td align='center' valign='center'>
+	<font size=6><center><a href=index.php>Home</a></center></font>
 	</td>
 	
-	<td>
-	<font size=30><center>".$_SESSION['name']."<a href=exit.php>Exit</a></center></font>
+
+
+
+	<td valign='center' align = 'left'>
+	<font size=6><center><a href='profil.php?login=$yname'>".$_SESSION['name']."</a><a href=exit.php>Exit</a></center></font>
 	</td>
 	</tr>
 </table></center>";
@@ -58,13 +74,37 @@ $table1 = "<center><table width=600 height=100 border=0 cellpadding=0 cellspacin
 
 $reg  = '
 <h1><center>Register<center></h1>
-	<form action="registr.php" method="post">
+	<form action="registr.php" method="post" enctype="multipart/form-data">
 	<center><table border=0 width=500 height=250>
 	<tr><td>
-FIrst Name
+Login
 	</td>
 	<td>
 	<input type="text" name=Fname><br>
+	</td>
+	</tr>
+	<tr>
+	<td>
+Email
+	</td>
+	<td>
+	<input type="email" name=email><br>
+	</td>
+	</tr>
+	<tr>
+	<td>
+Image
+	</td>
+	<td>
+	<input type="file" name=image><br>
+	</td>
+	</tr>
+	<tr>
+	<td>
+Name
+	</td>
+	<td>
+	<input type="text" name=yname><br>
 	</td>
 	</tr>
 	<tr>
@@ -167,4 +207,10 @@ $al = "<center>Wrong register.</center>";
 $esn = "<center>Sorry, but user with same name already registered.</center>";
 $tyr = "<center>Thanks you for registered, ".$name."</center><center> Try to join</center>";
 $tyj = "<center>Ty for join ".$logj."</center><center><a href=index.php>Home</a></center>";
+
+
+
+$some123124 = "<td valign='center' align = right>
+	<center><img src=$myava></center>
+	</td>"
 ?>
