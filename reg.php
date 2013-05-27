@@ -17,7 +17,7 @@ Include("Ident.txt");
 </head>
 <body>
 <?php
-
+echo $lang;
 echo $table;
 echo $reg;
 

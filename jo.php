@@ -21,17 +21,30 @@ $passj = $_POST["passj"];
 <body>
 <?php
 
-echo "<br>";
+
 
 
 
 //echo $table1;
-$db = mysql_connect("localhost","Mybase","qwerty55");
-mysql_select_db ("mybase",$db);
-$result = mysql_query("SELECT * FROM my WHERE login='$logj'",$db);
-$arr = mysql_fetch_array($result);
+//$db = mysql_connect("localhost","Mybase","qwerty55");
+//mysql_select_db ("mybase",$db);
+try {
+
+$result3 = $DBH->prepare("SELECT * FROM my WHERE login='$logj'");
+$result3->execute();
+
+//$result3->setFetchMode(DBO::FETCH_ASSOC);
+$result3->setFetchMode(PDO::FETCH_ASSOC);
+
+$arr = $result3->fetch();
+
+}
+catch(PDOException $e) {
+echo $e->getMessage();
+}
+
 if ($arr['rol'] == "ban")
-echo "You has been banned on this login";
+echo $ybn;
 else
 {
 if (empty($arr['login']))
@@ -46,7 +59,13 @@ if ($arr['password']==$passj)
 $_SESSION['name'] = "$logj";
 echo $tyj;
 $datenow = date("d.m.Y H:i:s");
-$uptime = mysql_query("UPDATE my SET datel='$datenow' WHERE login='$logj'");
+try {
+$uptime = $DBH->prepare("UPDATE my SET datel='$datenow' WHERE login='$logj'");
+$uptime->execute();
+}
+catch(PDOException $e) {
+echo $e->getMessage();
+}
 }
 //else echo "<br> Невірний Пароль";
 

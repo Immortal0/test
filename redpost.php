@@ -21,20 +21,35 @@ Include("Ident.txt");
 echo $table1;
 $redtema = $_SESSION['temared'];
 
-$db = mysql_connect ("localhost","Mybase","qwerty55");
-mysql_select_db ("mybase",$db);
-$slc = mysql_query("SELECT * FROM post WHERE tema='$redtema'",$db);
-$result = mysql_fetch_array($slc);
+//$db = mysql_connect ("localhost","Mybase","qwerty55");
+//mysql_select_db ("mybase",$db);
+try {
+$slc = $DBH->prepare("SELECT * FROM post WHERE tema='$redtema'");
+$slc->execute();
+$slc->setFetchMode(PDO::FETCH_ASSOC);
+$result = $slc->fetch();
+}
+catch(PDOException $e) {
+echo $e->getMessage();
+}
+//$result = mysql_fetch_array($slc);
 $text = $result['post'];
+$textua = $result['postua'];
 $val = $_GET['val'];
 if ($val == "Edit")
 echo "<center>".$redtema;
 echo "
 <form action='redd.php' method='GET'>
 
-<textarea name='redp' cols=100 rows=10>
+<textarea name='redp' cols=50 rows=10>
 
 $text
+
+</textarea>
+
+<textarea name='redpua' cols=50 rows=10>
+
+$textua
 
 </textarea>
 

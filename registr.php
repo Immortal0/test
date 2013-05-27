@@ -53,9 +53,15 @@ $datejoin = date("d.m.Y H:i:s");
 //$db = mysql_connect ("localhost","Mybase","qwerty55");
 //mysql_select_db ("mybase",$db);
 
-
-$exist = mysql_query("SELECT * FROM my WHERE login='$name'",$db);
-$ex = mysql_fetch_array($exist);
+try {
+$exist = $DBH->prepare("SELECT * FROM my WHERE login='$name'");
+$exist->setFetchMode(PDO::FETCH_ASSOC);
+$exist->execute();
+$ex = $exist->fetch();
+}
+catch(PDOException $e) {
+	echo $e->getMessage();
+	}
 
 if (!empty($ex['id']))
 {
@@ -65,12 +71,21 @@ echo $esn;
 else
 {
 
-$exist2 = mysql_query("SELECT * FROM my WHERE email='$email'",$db);
-$ex2 = mysql_fetch_array($exist2);
+try {
+$exist2 = $DBH->prepare("SELECT * FROM my WHERE email='$email'");
+$exist2->execute();
+$exist2->setFetchMode(PDO::FETCH_ASSOC);
+$ex2 = $exist2->fetch();
+
+}
+catch(PDOException $e) {
+	echo $e->getMessage();
+	}
+
 if (!empty($ex2['login']))
 {
 echo $table;
-echo "This Email already exist in our database";
+echo $teae;
 }
 else
 {
@@ -97,31 +112,26 @@ imageresize("$imagename.jpeg","$img",150,150,75);
 //else echo "netttt";
 //rename("ua.php", "/images/ua.php");
 //copy('./ua.php', './images/ua.php');
-
- $result = mysql_query ("INSERT INTO my (login,password,Lname,email,image,name,rol,dater,datel) VALUES ('$name','$pass','$sname','$email','$imagename.jpeg','$fname','usr','$datereg','$datejoin')",$db);
+try {
+ $result = $DBH->prepare("INSERT INTO my (login,password,Lname,email,image,name,rol,dater,datel) VALUES ('$name','$pass','$sname','$email','$imagename.jpeg','$fname','usr','$datereg','$datejoin')");
+$result->execute();
+}
+catch(PDOException $e) {
+	echo $e->getMessage(); 
+	}
 //echo $result;
- if ($result == TRUE)
-{
+ //if ($result == TRUE)
+
 $_SESSION['name'] = $name;
-echo "<a href='index.php'><center>Home</center></a>";
+echo $homsit;
 echo $tyr;
 
 
-}
-else
-{
-echo "no";
-}
-}
-}
-}
-//$file = fopen("$name.txt",w);
-//fwrite($file,$pass)
-//echo $file;
 
-//$f = fopen("file2.txt","a");
-//$cont = fgets("file2.txt",filesize("file2.txt"));
-//echo $cont;
+}
+}
+}
+
 ?>
 </body>
 </html>

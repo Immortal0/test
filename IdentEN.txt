@@ -3,7 +3,7 @@
 
 
 $lang = '
-<center><a href="ua.php">Українська </a> <br> <a href="en.php"> English</a></center>';
+<center><a href="ua.php"><img height=10 weidth=10 src=images/ua.jpg>Українська </a> <br> <a href="en.php"><img height=10 weidth=10 src=images/usa.jpg>English</a></center>';
 
 $kk = '
 <br>
@@ -16,6 +16,9 @@ Head<input type="text" name=zag>
 <br>
 <textarea name=newpost cols=60 rows=10>
 You post...
+</textarea>
+<textarea name=newpostua cols=60 rows=10>
+Ваш пост...
 </textarea>
 <br>
 <input type=submit value="Submit"></center>
@@ -43,19 +46,33 @@ $table = '
 	</tr>
 </table></center>';
 
-
-$db = mysql_connect ("localhost","Mybase","qwerty55");
-mysql_select_db ("mybase",$db);
+$host = "localhost";
+$dbname = "mybase";
+$user = "Mybase";
+$pass = "qwerty55";
 $uname = $_GET['login']; 
 $yname = $_SESSION['name'];
-$sqlmy = "SELECT * FROM my WHERE login='$uname'";
-$result2 = mysql_query($sqlmy);
-$myav = mysql_fetch_array($result2);
-$myava = $myav['image'];
+
+try {
+$DBH = new PDO("mysql:host=$host;dbname=$dbname", $user, $pass);
 
 
-$myav3 = mysql_fetch_array(mysql_query("SELECT * FROM my WHERE login='$yname'"));
-$myava3 = $myav3['image'];
+$STH = $DBH->prepare("SELECT * FROM my WHERE login='$uname'");  
+$STH->execute();
+
+$STH->setFetchMode(PDO::FETCH_ASSOC);
+$myav = $STH->fetch();
+
+//$sqlmy = "SELECT * FROM my WHERE login='$uname'";
+//$result2 = mysql_query($sqlmy);
+//$myav = mysql_fetch_array($result2);
+//$myava = $myav['image'];
+
+}
+catch(PDOException $e) {  
+    echo $e->getMessage();  
+}
+
 
 $table1 = "<center><table width=600 height=100 border=0 cellpadding=0 cellspacing=0>
 	<tr><td align='center' valign='center'>
@@ -115,63 +132,7 @@ Lust Name
 	<input type="text" name=Lname><br>
 	</td>
 	</tr>
-	<tr>
-	<td>
-Date 
-	</td>
-	<td>
-	<select name="menu" size="1">
-	<option value="1">1</option>
-	<option value="2">2</option>
-	<option value="3">3</option>
-	<option value="4">4</option>
-	<option value="5">5</option>
-	<option value="6">6</option>
-	<option value="7">7</option>
-	<option value="8">8</option>
-	<option value="9">9</option>
-	<option value="10">10</option>
-	<option value="11">11</option>
-	<option value="12">12</option>
-	<option value="13">13</option>
-	<option value="14">14</option>
-	<option value="15">15</option>
-	<option value="16">16</option>
-	<option value="17">17</option>
-	<option value="18">18</option>
-	<option value="19">19</option>
-	<option value="20">20</option>
-	<option value="21">21</option>
-	<option value="22">22</option>
-	<option value="23">23</option>
-	<option value="24">24</option>
-	<option value="25">25</option>
-	<option value="26">26</option>
-	<option value="27">27</option>
-	<option value="28">28</option>
-	<option value="29">29</option>
-	<option value="30">30</option>
-	<option value="31">31</option>
-	</select>
-Month
-	<select name="menu2" size="1">
-	<option value="m1">Ñ³÷åíü</option>
-	<option value="m2">Ëþòèé</option>
-	<option value="m3">Áåðåçåíü</option>
-	<option value="m4">Êâ³òåíü</option>
-	<option value="m5">Òðàâåíü</option>
-	<option value="m6">×åðâåíü</option>
-	<option value="m7">Ëèïåíü</option>
-	<option value="m8">Ñåðïåíü</option>
-	<option value="m9">Âåðåñåíü</option>
-	<option value="m10">Æîâòåíü</option>
-	<option value="m11">Ëèñòîïàä</option>
-	<option value="m12">Ãðóäåíü</option>
-	</select>
-Year
-	<input type="text" name=age maxlength="4" size=3>
-	</td>
-	</tr>
+	
 	<tr>
 	<td>
 Password
@@ -197,6 +158,17 @@ $joing = '
 <input type="submit" name=sub2 value="Submit"></center>
 ';
 
+$newprofred = '<form action="redp.php" method="post" enctype="multipart/form-data">
+
+<center><br>New first name: <input type="text" name="fname"><br>
+<br>New lust name: <input type="text" name="lname"><br>
+<br>New Email: <input type="email" name="email"><br>
+<br>New Photo: <input type="file" name="photo"><br>
+<br><input type="submit" name="submit" value="submit"></center>
+</form>
+
+';
+
 
 $yjnn = "<center>You jion as, <strong>NoName</center></strong>";
 $yjn = "<center>You join as, <strong>".$_SESSION['name']."</strong></center>";
@@ -207,8 +179,24 @@ $al = "<center>Wrong register.</center>";
 $esn = "<center>Sorry, but user with same name already registered.</center>";
 $tyr = "<center>Thanks you for registered, ".$name."</center><center> Try to join</center>";
 $tyj = "<center>Ty for join ".$logj."</center><center><a href=index.php>Home</a></center>";
-
-
+$ybn = "<center>You has been banned on this login</center>";
+$losit = "Login:   ";
+$nasit = "Name:   ";
+$lnasit = "Lust name:   ";
+$emsit = "Email:   ";
+$dresit = "Date Register:   ";
+$ljsit = "Lust join:   ";
+$prosit = "Profile";
+$minsit = " minutes";
+$secsit = " seconds";
+$housit = " hours";
+$daysit = " days";
+$agosit = " ago";
+$usesit = "users";
+$teae = "This Email already exist in our database";
+$homsit = "<a href='index.php'><center>Home</center></a>";
+$deleteussit = "DELETE";
+$editussit = "EDIT";
 
 $some123124 = "<td valign='center' align = right>
 	<center><img src=$myava></center>

@@ -22,9 +22,15 @@ echo $table1;
 echo $_GET['submit'];
 
 $profiln = $_SESSION['profil'];
-$myav2 = mysql_fetch_array(mysql_query("SELECT * FROM my WHERE login='$profiln'"));
-
-
+try {
+$dbredpr = $DBH->prepare("SELECT * FROM my WHERE login='$profiln'");
+$dbredpr->execute();
+$dbredpr->setFetchMode(PDO::FETCH_ASSOC);
+$myav2 = $dbredpr->fetch();
+}
+catch(PDOException $e) {
+echo $e->getMessage();
+}
 
 if (empty($_GET['submit']))
 {
@@ -63,23 +69,55 @@ function imageresize($outfile,$infile,$neww,$newh,$quality) {
 
 if (imageresize("$imagename.jpeg","$newimg",150,150,75)) echo "<br>NYYYYY!";
 }
-if ($del = mysql_query("UPDATE my SET name='$newfname' , Lname='$newlname' , email='$newemail' WHERE login='$profiln' ",$db)) echo "<br>";
+try {
+$del = $DBH->prepare("UPDATE my SET name='$newfname' , Lname='$newlname' , email='$newemail' WHERE login='$profiln' ");
+$del->execute();
+}
+catch(PDOException $e) {
+echo $e->getMessage();
+}
 $logg = $myav2['login'];
 }
 else
 {
 echo "voooo";
-if ($_GET['submit'] == "make adm") 
-$redprof = mysql_query("UPDATE my SET rol='adm' WHERE login='$profiln' ",$db); 
+if ($_GET['submit'] == "make adm")
+
+try { 
+$redprof = $DBH->prepare("UPDATE my SET rol='adm' WHERE login='$profiln' ");
+$redprof->execute();
+}
+catch(PDOException $e) {
+echo $e->getMessage();
+}
+ 
 echo "1<br>";
 if ($_GET['submit'] == "make usr") 
-$del = mysql_query("UPDATE my SET rol='usr' WHERE login='$profiln' ",$db); 
+try { 
+$redprof = $DBH->prepare("UPDATE my SET rol='usr' WHERE login='$profiln' ");
+$redprof->execute();
+}
+catch(PDOException $e) {
+echo $e->getMessage();
+}
 echo "2<br>";
 if ($_GET['submit'] == "make red") 
-$del = mysql_query("UPDATE my SET rol='red' WHERE login='$profiln' ",$db); 
+try { 
+$redprof = $DBH->prepare("UPDATE my SET rol='red' WHERE login='$profiln' ");
+$redprof->execute();
+}
+catch(PDOException $e) {
+echo $e->getMessage();
+}
 echo "3<br>";
 if ($_GET['submit'] == "make ban") 
-$del = mysql_query("UPDATE my SET rol='ban' WHERE login='$profiln' ",$db); 
+try { 
+$redprof = $DBH->prepare("UPDATE my SET rol='ban' WHERE login='$profiln' ");
+$redprof->execute();
+}
+catch(PDOException $e) {
+echo $e->getMessage();
+}
 echo "4<br>";
 $logg = $myav2['login'];
 }

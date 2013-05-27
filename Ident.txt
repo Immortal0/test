@@ -1,7 +1,9 @@
+
 <?php
 
+
 $lang = '
-<center><a href="ua.php">Українська </a> <br> <a href="en.php"> English</a></center>';
+<center><a href="ua.php"><img height=10 weidth=10 src=images/ua.jpg>Українська </a> <br> <a href="en.php"><img height=10 weidth=10 src=images/usa.jpg>English</a></center>';
 
 $kk = '
 <br>
@@ -13,38 +15,75 @@ $kk = '
 Заголовок<input type="text" name=zag>
 <br>
 <textarea name=newpost cols=60 rows=10>
-Ваша новина...
+You post...
+</textarea>
+<textarea name=newpostua cols=60 rows=10>
+Ваш пост...
 </textarea>
 <br>
-<input type=submit value="Відправити"></center>
+<input type=submit value="Submit"></center>
 </form>';
+
 
 $table = '
 <center><table width=600 height=100 border=0 cellpadding=0 cellspacing=0>
 	<tr><td>
-	<font size=30><center><a href=index.php>Головна</a></center></font>
+	<font size=5><center><a href=index.php>Головна</a></center></font>
 	</td>
 	<td>
-	<font size=30><center><a href=reg.php>Реєстація</a></center></font>
+	<font size=5><center><a href=reg.php>Реэстрація</a></center></font>
 	</td>
 	<td>
-	<form action="jo.php" method="post">
-<center><input type="text" name=login>Імя<br>
+	
+
+<form action="jo.php" method="post">
+<center><input type="text" name=login>Ім’я<br>
 <input type="password" name=passj>Пароль<br>
-<input type="submit" name=sub2 value="Вхід"></center>
+<input type="submit" name=sub2 value="Submit"></center>
 </form>
+
 	</td>
 	</tr>
 </table></center>';
 
+$host = "localhost";
+$dbname = "mybase";
+$user = "Mybase";
+$pass = "qwerty55";
+$uname = $_GET['login']; 
+$yname = $_SESSION['name'];
+
+try {
+$DBH = new PDO("mysql:host=$host;dbname=$dbname", $user, $pass);
+
+
+$STH = $DBH->prepare("SELECT * FROM my WHERE login='$uname'");  
+$STH->execute();
+
+$STH->setFetchMode(PDO::FETCH_ASSOC);
+$myav = $STH->fetch();
+
+//$sqlmy = "SELECT * FROM my WHERE login='$uname'";
+//$result2 = mysql_query($sqlmy);
+//$myav = mysql_fetch_array($result2);
+//$myava = $myav['image'];
+
+}
+catch(PDOException $e) {  
+    echo $e->getMessage();  
+}
+
 
 $table1 = "<center><table width=600 height=100 border=0 cellpadding=0 cellspacing=0>
-	<tr><td>
-	<font size=30><center><a href=index.php>Головна</a></center></font>
+	<tr><td align='center' valign='center'>
+	<font size=6><center><a href=index.php>Головна</a></center></font>
 	</td>
 	
-	<td>
-	<font size=30><center>".$_SESSION['name']."<a href=exit.php>Вихід</a></center></font>
+
+
+
+	<td valign='center' align = 'left'>
+	<font size=6><center><a href='profil.php?login=$yname'>".$_SESSION['name']."</a><a href=exit.php>Вихід</a></center></font>
 	</td>
 	</tr>
 </table></center>";
@@ -52,13 +91,37 @@ $table1 = "<center><table width=600 height=100 border=0 cellpadding=0 cellspacin
 
 $reg  = '
 <h1><center>Реєстрація<center></h1>
-	<form action="registr.php" method="post">
+	<form action="registr.php" method="post" enctype="multipart/form-data">
 	<center><table border=0 width=500 height=250>
 	<tr><td>
-Імя	
+Логін
 	</td>
 	<td>
 	<input type="text" name=Fname><br>
+	</td>
+	</tr>
+	<tr>
+	<td>
+Email
+	</td>
+	<td>
+	<input type="email" name=email><br>
+	</td>
+	</tr>
+	<tr>
+	<td>
+Фото
+	</td>
+	<td>
+	<input type="file" name=image><br>
+	</td>
+	</tr>
+	<tr>
+	<td>
+Ім’я
+	</td>
+	<td>
+	<input type="text" name=yname><br>
 	</td>
 	</tr>
 	<tr>
@@ -67,63 +130,6 @@ $reg  = '
 	</td>
 	<td>
 	<input type="text" name=Lname><br>
-	</td>
-	</tr>
-	<tr>
-	<td>
-Дата народження
-	</td>
-	<td>
-	<select name="menu" size="1">
-	<option value="1">1</option>
-	<option value="2">2</option>
-	<option value="3">3</option>
-	<option value="4">4</option>
-	<option value="5">5</option>
-	<option value="6">6</option>
-	<option value="7">7</option>
-	<option value="8">8</option>
-	<option value="9">9</option>
-	<option value="10">10</option>
-	<option value="11">11</option>
-	<option value="12">12</option>
-	<option value="13">13</option>
-	<option value="14">14</option>
-	<option value="15">15</option>
-	<option value="16">16</option>
-	<option value="17">17</option>
-	<option value="18">18</option>
-	<option value="19">19</option>
-	<option value="20">20</option>
-	<option value="21">21</option>
-	<option value="22">22</option>
-	<option value="23">23</option>
-	<option value="24">24</option>
-	<option value="25">25</option>
-	<option value="26">26</option>
-	<option value="27">27</option>
-	<option value="28">28</option>
-	<option value="29">29</option>
-	<option value="30">30</option>
-	<option value="31">31</option>
-	</select>
-місяць
-	<select name="menu2" size="1">
-	<option value="m1">Ñ³÷åíü</option>
-	<option value="m2">Ëþòèé</option>
-	<option value="m3">Áåðåçåíü</option>
-	<option value="m4">Êâ³òåíü</option>
-	<option value="m5">Òðàâåíü</option>
-	<option value="m6">×åðâåíü</option>
-	<option value="m7">Ëèïåíü</option>
-	<option value="m8">Ñåðïåíü</option>
-	<option value="m9">Âåðåñåíü</option>
-	<option value="m10">Æîâòåíü</option>
-	<option value="m11">Ëèñòîïàä</option>
-	<option value="m12">Ãðóäåíü</option>
-	</select>
-Рік
-	<input type="text" name=age maxlength="4" size=3>
 	</td>
 	</tr>
 	<tr>
@@ -146,20 +152,52 @@ $reg  = '
 
 $joing = '
 <form action="jo.php" method="post">
-<center><input type="text" name=login>Імя<br>
+<center><input type="text" name=login>Ім’я<br>
 <input type="password" name=passj>Пароль<br>
-<input type="submit" name=sub2 value="Вхід"></center>
+<input type="submit" name=sub2 value="Submit"></center>
 ';
 
-$yjnn = "<center>Ви ввійшли як, <strong>Гість</center></strong>";
+$newprofred = '<form action="redp.php" method="post" enctype="multipart/form-data">
+
+<center><br>Нове ім’я: <input type="text" name="fname"><br>
+<br>Нове призвіще: <input type="text" name="lname"><br>
+<br>Новий Email: <input type="email" name="email"><br>
+<br>Нове фото: <input type="file" name="photo"><br>
+<br><input type="submit" name="submit" value="submit"></center>
+</form>
+
+';
+
+
+$yjnn = "<center>Ви ввійшли як, <strong>Гість.</center></strong>";
 $yjn = "<center>Ви ввійшли як, <strong>".$_SESSION['name']."</strong></center>";
 $nw = "<br><center><font size=30>Новини</font></center><br><br>";
-$ne = "Такого імя не існує в нашій базі данних";
-$pe = "Неправлеьний пароль";
+$ne = "Неправельний логін.";
+$pe = "Неправельний пароль.";
 $al = "<center>Ви не зареєстровані.</center>";
-$esn = "<center>Вибачте, але користувача з таким імям вже зареєстрований.</center>";
-$tyr = "<center>Дякуємо за реєстрацію.".$name."</center><center> Можете увійти.</center>";
-$tyj = "<center>Дякуємо за авторизацію.".$logj."</center><center><a href=index.php>Головна</a></center>";
+$esn = "<center>Вибачте, але користувач з такім логіном вже зареєстрований.</center>";
+$tyr = "<center>Дякуємо за реєстрацію, ".$name."</center><center> Тепер ви можете ввійти.</center>";
+$tyj = "<center>Дякуємо що ввійшли ".$logj."</center><center><a href=index.php>Home</a></center>";
+$ybn = "<center>Ваш аккаунт був заблокований по деяким причинам.</center>";
+$losit = "Логін:   ";
+$nasit = "Ім’я:   ";
+$lnasit = "Призвіще:   ";
+$emsit = "Email:   ";
+$dresit = "Дата реєстрації:   ";
+$ljsit = "Останній раз входив:   ";
+$prosit = "Профіль";
+$minsit = " хвилин";
+$secsit = " секунд";
+$housit = " годин";
+$daysit = " днів";
+$agosit = " назад";
+$usesit = "користувачі";
+$teae = "Такий Email вже зареєстрований в нашій забі данних.";
+$homsit = "<a href='index.php'><center>Головна</center></a>";
+$deleteussit = "ВИДАЛИТИ";
+$editussit = "РЕДАГУВАТИ";
 
-
+$some123124 = "<td valign='center' align = right>
+	<center><img src=$myava></center>
+	</td>"
 ?>

@@ -19,20 +19,18 @@ Include("Ident.txt");
 <body>
 <?php
 echo $table1;
-echo '<form action="redp.php" method="post" enctype="multipart/form-data">
-
-<center><br>New first name: <input type="text" name="fname"><br>
-<br>New lust name: <input type="text" name="lname"><br>
-<br>New Enail: <input type="email" name="email"><br>
-<br>New Photo: <input type="file" name="photo"><br>
-<br><input type="submit" name="submit" value="submit"></center>
-</form>
-
-';
+echo $newprofred;
 
 $ifadmine = $_SESSION['name'];
-$resules = mysql_query("SELECT * FROM my WHERE login='$ifadmine'");
-$ifadm = mysql_fetch_array($resules);
+try {
+$ifadmin = $DBH->prepare("SELECT * FROM my WHERE login='$ifadmine'");
+$ifadmin->execute();
+$ifadmin->setFetchMode(PDO::FETCH_ASSOC);
+$ifadm = $ifadmin->fetch();
+}
+catch(PDOException $e) {
+echo $e->getMessage();
+}
 $isadm = $ifadm['rol'];
 $myrol = "adm";
 //echo $isadm;

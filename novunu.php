@@ -20,6 +20,7 @@ Include("Ident.txt");
 <body>
 <?php
 
+echo $lang;
 
 if (empty($_SESSION['name']))
 {
@@ -35,16 +36,29 @@ echo $table1;
 $temas = $_GET['id'];
 //echo $temas;
 $_SESSION['temared'] = "$temas";
-$db = mysql_connect ("localhost","Mybase","qwerty55");
-mysql_select_db ("mybase",$db);
-$sql = "SELECT * FROM post WHERE tema='$tema'";
-$result = mysql_query("SELECT * FROM post WHERE tema='$temas'",$db)  or die(mysql_error());
-$row = mysql_fetch_assoc($result);
-if ($row)
-{
-echo "<center><strong><font size=5>".$row['tema']."</font></strong></center>";	
-echo "<center>".$row['post']."</center>";
+//$db = mysql_connect ("localhost","Mybase","qwerty55");
+//mysql_select_db ("mybase",$db);
+//$sqltem = "SELECT * FROM post WHERE tema='$tema'";
+try {
+$dbtema = $DBH->prepare("SELECT * FROM post WHERE tema='$temas'");
+$dbtema->execute();
+
+$dbtema->setFetchMode(PDO::FETCH_ASSOC);
+$row = $dbtema->fetch();
+
 }
+catch(PDOException $e) {
+echo $e->getMessage();
+}
+
+if ($_SESSION['lang'] == "en")
+$hnov = $row['post'];
+else 
+$hnov = $row['postua'];
+
+echo "<center><strong><font size=5>".$row['tema']."</font></strong></center>";	
+echo "<center>".$hnov."</center>";
+
 
 $autorp = $row['login'];
 
