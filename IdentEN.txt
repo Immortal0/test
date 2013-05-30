@@ -169,6 +169,28 @@ $newprofred = '<form action="redp.php" method="post" enctype="multipart/form-dat
 
 ';
 
+$voteyou = "<center><form action='vote.php' method='post'>
+
+<input type='radio' name='vote' value='5'> Master!<br>
+<input type='radio' name='vote' value='4'> Good.<br> 
+<input type='radio' name='vote' value='3'> Not bad...<br>
+<input type='radio' name='vote' value='2'> Bad.<br> 
+<input type='radio' name='vote' value='1'> WTF?<br> 
+<input type='submit' name='sub' value='vote'>
+</center>
+</form>";
+
+
+$posycom = "<center><br><h4>Post you comment</h4><form action='coments.php' method='GET'>
+head<input type='text' name='zagc'><br>
+<textarea cols=50 rows=5 name='coment'>
+</textarea><br>
+<input type=submit value=coment name=submit></center>
+</form>
+"; 
+
+
+
 
 $yjnn = "<center>You jion as, <strong>NoName</center></strong>";
 $yjn = "<center>You join as, <strong>".$_SESSION['name']."</strong></center>";
@@ -197,6 +219,12 @@ $teae = "This Email already exist in our database";
 $homsit = "<a href='index.php'><center>Home</center></a>";
 $deleteussit = "DELETE";
 $editussit = "EDIT";
+$noval = "No one vote already";
+$vom = "Vote mark";
+$votesall = "Votes";
+$voyoum = "You mark";
+$comeny = "Coments:";
+$tyforvote = "Ty for vote";
 
 $some123124 = "<td valign='center' align = right>
 	<center><img src=$myava></center>

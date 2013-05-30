@@ -11,7 +11,7 @@ else
 Include("Ident.txt");
 }
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd"
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html>
 <head>
 <title>Test</title>
@@ -29,28 +29,61 @@ echo $table;
 echo $fs;
 echo $nw;
 
+$host = "localhost";
+$dbname = "mybase";
+$user = "Mybase";
+$pass = "qwerty55";
 
-//$db = mysql_connect ("localhost","Mybase","qwerty55");
-//mysql_select_db ("mybase",$db);
- $sql = "SELECT * FROM post";
-     $result = mysql_query($sql)  or die(mysql_error());
-     while ($row = mysql_fetch_assoc($result))
+try {
+
+$DBH = new PDO("mysql:host=$host;dbname=$dbname", $user, $pass);
+
+}
+
+catch(PDOException $e) {
+echo $e->getMessage();
+}
+
+try
+{
+ $sql = $DBH->prepare("SELECT * FROM post");
+ $sql->execute();
+$sql->setFetchMode(PDO::FETCH_ASSOC);
+}
+catch(PDOException $e) {
+echo $e->getMessage();
+}
+//$sss = $sql->fetch();
+//echo $sss['login'];
+        while ($row = $sql->fetch())
+
      {
+if ($_SESSION['lang'] == "en")
+$hnov = $row['postn'];
+else 
+$hnov = $row['postnua'];
+
 	$ulog = $row['login'];
-	$islogin = mysql_query("SELECT id FROM my WHERE login='$ulog'");
-	$roww = mysql_fetch_array($islogin);
+try {
+	$islogin = $DBH->prepare("SELECT id FROM my WHERE login='$ulog'");
+	$islogin->execute();
+	$islogin->setFetchMode(PDO::FETCH_ASSOC);
+	$roww = $islogin->fetch();
+}
+catch(PDOException $e) { 
+echo $e->getMessage(); 
+}
 	if (!empty($roww))
 	{
 	//$ylogin = $myav['']
-	echo "<center>_________________________________<br><strong><font size = 20><a href='profil.php?login=$ulog'>".$row['login']."</a></strong></font><br></center>";
+	echo "<center>".str_repeat("_",50)."<br><strong><font size = 20><a href='profil.php?login=$ulog'>".$row['login']."</a></strong></font><br></center>";
 	}
 else {
-	echo "<center>_________________________________<br><strong><font size = 20>".$row['login']."</strong></font><br></center>";
+	echo "<center>".str_repeat("_",50)."<br><strong><font size = 20>".$row['login']."</strong></font><br></center>";
 	}
 	$tena = $row['tema'];
 	echo "<center><a href='novunu.php?id=$tena'>".$row['tema']."</a><br></center>";
-	echo "<center>".$row['postn']."<br>_________________________________</center><br>";
-
+	echo "<center>".$hnov."<br>".str_repeat("_",50)."</center><br>";
 
 }
 //$novop = fopen("novunu3.txt","a+");
@@ -88,28 +121,53 @@ echo $yjn;
 //$myav = mysql_fetch_array($result2);
 //$myava = $myav['image'];
 //echo $myava;
+echo $lang;
 echo $table1;
 
-echo $nw;
 
- $sql = "SELECT * FROM post";
-     $result = mysql_query($sql)  or die(mysql_error());
-     while ($row = mysql_fetch_assoc($result))
+
+echo $nw;
+try
+{
+ $sql = $DBH->prepare("SELECT * FROM post");
+ $sql->execute();
+$sql->setFetchMode(PDO::FETCH_ASSOC);
+}
+catch(PDOException $e) {
+echo $e->getMessage();
+}
+//$sss = $sql->fetch();
+//echo $sss['login'];
+
+
+        while ($row = $sql->fetch())
      {
+if ($_SESSION['lang'] == "en")
+$hnov = $row['postn'];
+else 
+$hnov = $row['postnua'];
+
 	$ulog = $row['login'];
-	$islogin = mysql_query("SELECT id FROM my WHERE login='$ulog'");
-	$roww = mysql_fetch_array($islogin);
+try {
+	$islogin = $DBH->prepare("SELECT id FROM my WHERE login='$ulog'");
+	$islogin->execute();
+	$islogin->setFetchMode(PDO::FETCH_ASSOC);
+	$roww = $islogin->fetch();
+}
+catch(PDOException $e) { 
+echo $e->getMessage(); 
+}
 	if (!empty($roww))
 	{
 	//$ylogin = $myav['']
-	echo "<center>_________________________________<br><strong><font size = 20><a href='profil.php?login=$ulog'>".$row['login']."</a></strong></font><br></center>";
+	echo "<center>".str_repeat("_",50)."<br><strong><font size = 20><a href='profil.php?login=$ulog'>".$row['login']."</a></strong></font><br></center>";
 	}
 else {
-	echo "<center>_________________________________<br><strong><font size = 20>".$row['login']."</strong></font><br></center>";
+	echo "<center>".str_repeat("_",50)."<br><strong><font size = 20>".$row['login']."</strong></font><br></center>";
 	}
 	$tena = $row['tema'];
 	echo "<center><a href='novunu.php?id=$tena'>".$row['tema']."</a><br></center>";
-	echo "<center>".$row['postn']."<br>_________________________________</center><br>";
+	echo "<center>".$hnov."<br>".str_repeat("_",50)."</center><br>";
 
 }
 //$novop = fopen("novunu3.txt","a+");
@@ -127,8 +185,15 @@ else {
 
 //fclose($novop);
 $yyname = $_SESSION['name'];
-$isredag = mysql_query("SELECT * FROM my WHERE login='$yyname'");
-$isr = mysql_fetch_array($isredag);
+try
+{
+$isredag = $DBH->prepare("SELECT * FROM my WHERE login='$yyname'");
+$isredag->execute();
+$isredag->setFetchMode(PDO::FETCH_ASSOC);
+}
+catch(PDOException $e) {
+echo $e->getMessage(); }
+$isr = $isredag->fetch();
 if ($isr['rol'] == "adm" or $isr['rol'] == "red")
 echo $kk;
 }

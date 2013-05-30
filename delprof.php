@@ -19,6 +19,8 @@ Include("Ident.txt");
 </head>
 <body>
 <?php
+
+
 if ($_GET['login'] == "")
 {
 $profiln = $_SESSION['profil'];
@@ -52,6 +54,7 @@ catch(PDOException $e) {
 	echo $e->getMessagre();
 }
 echo("<script>location.href='users.php'</script>");
+}
 }
 ?>
 </body>

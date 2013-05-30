@@ -168,6 +168,28 @@ $newprofred = '<form action="redp.php" method="post" enctype="multipart/form-dat
 
 ';
 
+$voteyou = "<center><form action='vote.php' method='post'>
+
+<input type='radio' name='vote' value='5'> Афігенно!<br>
+<input type='radio' name='vote' value='4'> Добре.<br> 
+<input type='radio' name='vote' value='3'> Ну, непогано...<br>
+<input type='radio' name='vote' value='2'> Погано.<br> 
+<input type='radio' name='vote' value='1'> Що за х..?<br> 
+<input type='submit' name='sub' value='vote'>
+</center>
+</form>";
+
+
+$posycom = "<center><br><h4>Залиште ваш коментар.</h4><form action='coments.php' method='GET'>
+Заголовок<input type='text' name='zagc'><br>
+<textarea cols=50 rows=5 name='coment'>
+</textarea><br>
+<input type=submit value=coment name=submit></center>
+</form>
+"; 
+
+
+
 
 $yjnn = "<center>Ви ввійшли як, <strong>Гість.</center></strong>";
 $yjn = "<center>Ви ввійшли як, <strong>".$_SESSION['name']."</strong></center>";
@@ -196,6 +218,12 @@ $teae = "Такий Email вже зареєстрований в нашій за
 $homsit = "<a href='index.php'><center>Головна</center></a>";
 $deleteussit = "ВИДАЛИТИ";
 $editussit = "РЕДАГУВАТИ";
+$noval = "Ніхто ще не голосував за цю тему.";
+$vom = "Середня оцінка";
+$votesall = "Голосів";
+$voyoum = "Ваша оцінка";
+$comeny = "Коментарі:";
+$tyforvote = "Дякуємо за вашу оцінку";
 
 $some123124 = "<td valign='center' align = right>
 	<center><img src=$myava></center>

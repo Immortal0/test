@@ -20,11 +20,35 @@ Include("Ident.txt");
 <body>
 <?php
 
+if (empty($_SESSION['name'])) echo "Error";
+else 
+{
+
+
+
+
+
+ 
+
 $name = $_SESSION['name'];
 $mypost = $_POST['newpost'];
 $myzag = $_POST['zag'];
 $mypostua = $_POST['newpostua'];
 
+
+try {
+$dr = $DBH->prepare("SELECT * FROM my WHERE login='$name'");
+$dr->execute();
+$dr->setFetchMode(PDO::FETCH_ASSOC);
+$drcode = $dr->fetch();
+
+}
+catch(PDOException $e) {
+echo $e->getMessage();
+}
+if ($drcode['rol'] == "usr") echo "Error";
+else 
+{
 
 
 
@@ -92,8 +116,15 @@ echo "<br>good";
 
 }
 
-
-
+try {
+$votes = $DBH->prepare("INSERT INTO vote (tema) VALUES ('$myzag')");
+$votes->execute();
+echo "<br>OKAAAy";
+}
+catch(PDOException $e) {
+echo $e->getMessage();
+}
+echo "<br>dddd";
 
 
 
@@ -111,7 +142,8 @@ echo "<br>good";
 echo("<script>location.href='index.php'</script>");
 
 //echo '<center><a href="autor.php">ОК</a></center>';
-
+}
+}
 ?>
 </body>
 </html>
